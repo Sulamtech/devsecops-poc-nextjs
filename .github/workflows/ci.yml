@@ -21,6 +21,7 @@ jobs:
 
   governance:
     name: governance
+    needs: integrity
     if: github.event_name == 'pull_request'
     permissions:
       contents: read
