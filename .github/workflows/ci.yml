@@ -33,6 +33,7 @@ jobs:
     permissions:
       contents: read
       pull-requests: read
+      id-token: write
     uses: Sulamtech/devsecops-poc-workflows/.github/workflows/reusable-security.yml@e566ea21905b16278f56601b0dd79f8b5478cf31 # KAN-118 Trivy base/HEAD canary
     with:
       image-name: devsecops-poc-nextjs
