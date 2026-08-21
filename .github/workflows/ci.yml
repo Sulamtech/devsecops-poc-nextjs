@@ -47,16 +47,3 @@ jobs:
     uses: Sulamtech/devsecops-poc-workflows/.github/workflows/reusable-security.yml@caccbea651ddd4d998295b7b56007ac46cf7fde7
     with:
       image-name: devsecops-poc-nextjs
-
-  feedback:
-    name: feedback
-    if: ${{ always() && github.event_name == 'pull_request' }}
-    needs: [integrity, tests, security]
-    permissions:
-      contents: read
-      pull-requests: write
-    uses: Sulamtech/devsecops-poc-workflows/.github/workflows/reusable-pr-feedback.yml@caccbea651ddd4d998295b7b56007ac46cf7fde7
-    with:
-      integrity-result: ${{ needs.integrity.result }}
-      tests-result: ${{ needs.tests.result }}
-      security-result: ${{ needs.security.result }}
