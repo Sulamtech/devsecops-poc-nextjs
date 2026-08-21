@@ -7,7 +7,7 @@ type HomePageProps = {
 export default async function HomePage({ searchParams }: HomePageProps) {
   const params = await searchParams;
   const preview = Array.isArray(params.preview)
-    ? params.preview[0]
+    ? (params.preview[0] ?? "")
     : (params.preview ?? "");
 
   return (
