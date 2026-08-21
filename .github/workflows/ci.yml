@@ -2,8 +2,7 @@ name: ci
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
   workflow_dispatch:
 
@@ -18,14 +17,24 @@ jobs:
     name: integrity
     permissions:
       contents: read
-    uses: Sulamtech/devsecops-poc-workflows/.github/workflows/reusable-caller-integrity.yml@e566ea21905b16278f56601b0dd79f8b5478cf31 # caller integrity detector
+    uses: Sulamtech/devsecops-poc-workflows/.github/workflows/reusable-caller-integrity.yml@caccbea651ddd4d998295b7b56007ac46cf7fde7
+
+  governance:
+    name: governance
+    needs: integrity
+    if: github.event_name == 'pull_request'
+    permissions:
+      contents: read
+      issues: read
+      pull-requests: read
+    uses: Sulamtech/devsecops-poc-workflows/.github/workflows/reusable-pr-governance.yml@caccbea651ddd4d998295b7b56007ac46cf7fde7
 
   tests:
     name: tests
     needs: integrity
     permissions:
       contents: read
-    uses: Sulamtech/devsecops-poc-workflows/.github/workflows/reusable-node-ci.yml@e566ea21905b16278f56601b0dd79f8b5478cf31 # poc-v1.2.1
+    uses: Sulamtech/devsecops-poc-workflows/.github/workflows/reusable-node-ci.yml@caccbea651ddd4d998295b7b56007ac46cf7fde7
     with:
       node-version: "22"
 
@@ -35,7 +44,19 @@ jobs:
     permissions:
       contents: read
       pull-requests: read
-      id-token: write
-    uses: Sulamtech/devsecops-poc-workflows/.github/workflows/reusable-security.yml@e566ea21905b16278f56601b0dd79f8b5478cf31 # KAN-118 Trivy base/HEAD canary
+    uses: Sulamtech/devsecops-poc-workflows/.github/workflows/reusable-security.yml@caccbea651ddd4d998295b7b56007ac46cf7fde7
     with:
       image-name: devsecops-poc-nextjs
+
+  feedback:
+    name: feedback
+    if: ${{ always() && github.event_name == 'pull_request' }}
+    needs: [integrity, tests, security]
+    permissions:
+      contents: read
+      pull-requests: write
+    uses: Sulamtech/devsecops-poc-workflows/.github/workflows/reusable-pr-feedback.yml@caccbea651ddd4d998295b7b56007ac46cf7fde7
+    with:
+      integrity-result: ${{ needs.integrity.result }}
+      tests-result: ${{ needs.tests.result }}
+      security-result: ${{ needs.security.result }}

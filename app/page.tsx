@@ -1,14 +1,14 @@
 const controls = ["Gitleaks", "Semgrep", "Trivy SCA", "Trivy image"];
 
 type HomePageProps = {
-  searchParams?: Promise<{ preview?: string | string[] }>;
+  searchParams: Promise<{ preview?: string | string[] }>;
 };
 
-export default async function HomePage({ searchParams }: HomePageProps = {}) {
+export default async function HomePage({ searchParams }: HomePageProps) {
   const params = await searchParams;
-  const preview = Array.isArray(params?.preview)
+  const preview = Array.isArray(params.preview)
     ? params.preview[0]
-    : (params?.preview ?? "");
+    : (params.preview ?? "");
 
   return (
     <main>
