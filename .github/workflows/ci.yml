@@ -17,7 +17,7 @@ jobs:
     name: integrity
     permissions:
       contents: read
-    uses: Sulamtech/devsecops-poc-workflows/.github/workflows/reusable-caller-integrity.yml@56c4aa8ca8d903657f51ed396afe9467611cf095
+    uses: Sulamtech/devsecops-poc-workflows/.github/workflows/reusable-caller-integrity.yml@8014c26b20ca7a0415bb8c0df5132389ff01218e
 
   governance:
     name: governance
@@ -27,14 +27,14 @@ jobs:
       contents: read
       issues: read
       pull-requests: read
-    uses: Sulamtech/devsecops-poc-workflows/.github/workflows/reusable-pr-governance.yml@56c4aa8ca8d903657f51ed396afe9467611cf095
+    uses: Sulamtech/devsecops-poc-workflows/.github/workflows/reusable-pr-governance.yml@8014c26b20ca7a0415bb8c0df5132389ff01218e
 
   tests:
     name: tests
     needs: integrity
     permissions:
       contents: read
-    uses: Sulamtech/devsecops-poc-workflows/.github/workflows/reusable-node-ci.yml@56c4aa8ca8d903657f51ed396afe9467611cf095
+    uses: Sulamtech/devsecops-poc-workflows/.github/workflows/reusable-node-ci.yml@8014c26b20ca7a0415bb8c0df5132389ff01218e
     with:
       node-version: "22"
 
@@ -44,6 +44,6 @@ jobs:
     permissions:
       contents: read
       pull-requests: read
-    uses: Sulamtech/devsecops-poc-workflows/.github/workflows/reusable-security.yml@56c4aa8ca8d903657f51ed396afe9467611cf095
+    uses: Sulamtech/devsecops-poc-workflows/.github/workflows/reusable-security.yml@8014c26b20ca7a0415bb8c0df5132389ff01218e
     with:
       image-name: devsecops-poc-nextjs
