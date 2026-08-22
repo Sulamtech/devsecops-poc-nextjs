@@ -2,8 +2,9 @@ import { render, screen } from "@testing-library/react";
 import HomePage from "@/app/page";
 
 describe("HomePage", () => {
-  it("renders the DevSecOps controls", () => {
-    render(<HomePage />);
+  it("renders the DevSecOps controls", async () => {
+    const page = await HomePage({ searchParams: Promise.resolve({}) });
+    render(page);
 
     expect(
       screen.getByRole("heading", { name: "DevSecOps PoC" }),
